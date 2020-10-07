@@ -33,7 +33,7 @@ $string['enabled_plugin'] = 'Enable Plugin';
 $string['enabled_plugin_desc'] = 'Check if need to enable web activity tracking.';
 $string['lable_logout_time_on_activity'] = "Idle time auto-logout (in minutes):";
 $string['logout_time_on_activity_help'] = "Leeloo LXP will first
-show the idle time pop-up if no 
+show the idle time pop-up if no
 activity is registered, according to Leeloo LXP backend settings.
 Then it will log the user out from Moodle after the selected amount of time.";
 $string['still_learning'] = 'Are you still learning?';
