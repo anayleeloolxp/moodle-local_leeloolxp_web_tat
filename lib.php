@@ -23,13 +23,12 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-
+require_login();
 require_once(dirname(dirname(__DIR__)) . '/config.php');
 /**
  * Plugin to sync user's  tracking on activity to LeelooLXP account of the Moodle Admin
  */
 function local_leeloolxp_web_tat_before_footer() {
-    require_login();
     $configtat = get_config('local_leeloolxp_web_tat');
 
     $licensekey = $configtat->leeloolxp_web_tatlicensekey;
