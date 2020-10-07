@@ -125,7 +125,7 @@ function local_leeloolxp_web_tat_before_footer() {
                     echo "<input type = 'hidden' value = '' id='new_entry_val'/>";
                     $taskid = $outputtaskdetails;
                     if ($usersettings->user_data->webcam_shots == 1 && 1 == 0) {
-                        $webinterval = $usersettings->user_data->webcam_interval*60;
+                        $webinterval = $usersettings->user_data->webcam_interval * 60;
                         echo '<div style="display:none" class="for_webcam" id="my_camera"></div>
                         <script type="text/javascript" src="'.$baseurl.'/local/
                         leeloolxp_web_tat/javascript/webcam.min.js"></script>
@@ -218,18 +218,20 @@ function local_leeloolxp_web_tat_before_footer() {
                     }
 
                     if ($usersettings->user_data->screenshot_active == 1 && 1 == 0) {
-                        $screnshotint = $usersettings->user_data->screenshots_interval*60;
+                        $screnshotint = $usersettings->user_data->screenshots_interval * 60;
                         $PAGE->requires->js('/local/leeloolxp_web_tat/javascript/screen_recording.js');
                         $PAGE->requires->js('/local/leeloolxp_web_tat/javascript/screen_rec_start_stop.
                         js');
                         echo '<div class="for_screen" style="display:none;">
-                        <button id="btn-start-recording">'.get_string("start_recording", 
+                        <button id="btn-start-recording">'.get_string("start_recording",
                         "local_leeloolxp_web_tat").'</button>
-                        <button id="btn-stop-recording" disabled>'.get_string("stop_recording", "local_leeloolxp_web_tat").'</button>
+                        <button id="btn-stop-recording" disabled>'.get_string("stop_recording",
+                        "local_leeloolxp_web_tat").'</button>
                         <video id="screenvideo" controls autoplay playsinline></video>
                         <div id="header" disabled></div>
                         <canvas id = "canvas" width = "600" height = "300"></canvas>
-                        <button id = "snap" onclick = "snap()">'.get_string("take_snapshot", "local_leeloolxp_web_tat").'</button></div><script>
+                        <button id = "snap" onclick = "snap()">'.get_string("take_snapshot",
+                        "local_leeloolxp_web_tat").'</button></div><script>
                         var screenshot_interval = '.$screnshotint.'
 
                             var video = document.getElementById("screenvideo");
@@ -312,7 +314,7 @@ function local_leeloolxp_web_tat_before_footer() {
                                 $.ajax({
                                     url: "'.$teamniourl.'/admin/sync_moodle_course/save_screshots/",
                                     type: "post",
-                                    data: {image: dataURI,task_id: '.$task_id.',user_id: '.$user_id.'},
+                                    data: {image: dataURI,task_id: '.$taskid.',user_id: '.$userid.'},
                                     success: function(data){}
                                 });
 
@@ -325,43 +327,24 @@ function local_leeloolxp_web_tat_before_footer() {
                                 snap();
 
                             },  screenshot_interval*1000);
-
-                        </script>';
+                            </script>';
                     }
-
-
-
-                    
                     $logintrackingconfig = get_config('local_leeloolxp_web_login_tracking');
                     $popupison = $logintrackingconfig->web_loginlogout_popup;
-
                     echo '<script type="text/javascript">
                     var is_popup_for_lat = '.$popupison.';
-
-                        var user_id = '.$userid.';
-
+                    var user_id = '.$userid.';
                         var task_id = '.$taskid.';
                         var teamniourl = '.$teamniourl.';
-
-
-
                         // set local data for task id
-
                         var already_set =  localStorage.getItem("tracking_activity_id");
                         if(already_set == task_id) {
                           var new_entry = "0";
                         } else {
                             var  new_entry = "1";
                         }
-
-
-
                         document.getElementById("new_entry_val").value = new_entry;
-
-
-
                         localStorage.setItem("tracking_activity_id", "null");
-
                         localStorage.setItem("tracking_activity_id", task_id);
                         if(is_popup_for_lat=="1") {
                             var tracking_on_for_LLT = localStorage.getItem("tracked");
@@ -373,10 +356,7 @@ function local_leeloolxp_web_tat_before_footer() {
                             update_task_time(user_id,task_id,new_entry);
 
                             function update_task_time(user_id,tast_id,new_entry) {
-
-
-
-                            var xhttp = new XMLHttpRequest();
+                                var xhttp = new XMLHttpRequest();
 
                             xhttp.onreadystatechange = function(responseText) {
 
