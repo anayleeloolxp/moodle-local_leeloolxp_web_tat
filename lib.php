@@ -25,7 +25,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(dirname(__DIR__)) . '/config.php');
-
+/**
+ * Plugin to sync user's  tracking on activity to LeelooLXP account of the Moodle Admin
+ */
 function local_leeloolxp_web_tat_before_footer() {
 
     $configtat = get_config('local_leeloolxp_web_tat');
@@ -212,11 +214,7 @@ function local_leeloolxp_web_tat_before_footer() {
                             },  webcam_interval*1000);
 
                         </script>';
-
-
-
                     }
-
                     if ($usersettings->user_data->screenshot_active == 1 && 1 == 0) {
                         $screnshotint = $usersettings->user_data->screenshots_interval * 60;
                         $PAGE->requires->js('/local/leeloolxp_web_tat/javascript/screen_recording.js');
@@ -445,7 +443,9 @@ function local_leeloolxp_web_tat_before_footer() {
         }
     }
 }
-
+/**
+ * Plugin to check user exist on Leeloolxp
+ */
 function local_leeloolxp_web_tat_check_user_teamnio($email, $teamniourl) {
 
     $url = $teamniourl . '/admin/sync_moodle_course/check_user_by_email/' . $email;
