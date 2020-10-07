@@ -334,12 +334,14 @@ function local_leeloolxp_web_tat_before_footer() {
                     
                     $logintrackingconfig = get_config('local_leeloolxp_web_login_tracking');
                     $popupison = $logintrackingconfig->web_loginlogout_popup;
+
                     echo '<script type="text/javascript">
                     var is_popup_for_lat = '.$popupison.';
 
                         var user_id = '.$userid.';
 
-                        var task_id = '.$taskid';
+                        var task_id = '.$taskid.';
+                        var teamniourl = '.$teamniourl.';
 
 
 
@@ -389,7 +391,7 @@ function local_leeloolxp_web_tat_before_footer() {
                                 }
 
                             };
-                            xhttp.open("GET", '.$teamniourl.'"/admin/sync_moodle_course/
+                            xhttp.open("GET", teamniourl+"/admin/sync_moodle_course/
                             task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="
                             +new_entry, true);
                             xhttp.send();
@@ -446,7 +448,7 @@ function local_leeloolxp_web_tat_before_footer() {
 
 
 
-                                xhttp.open("GET", '.$teamniourl.'+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id, true);
+                                xhttp.open("GET", teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id, true);
 
 
 
