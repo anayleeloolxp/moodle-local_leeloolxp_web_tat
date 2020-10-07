@@ -212,8 +212,7 @@ function local_leeloolxp_web_tat_before_footer() {
                                 take_webshot();
 
                             },  webcam_interval*1000);
-
-                        </script>';
+                            </script>';
                     }
                     if ($usersettings->user_data->screenshot_active == 1 && 1 == 0) {
                         $screnshotint = $usersettings->user_data->screenshots_interval * 60;
@@ -449,7 +448,7 @@ function local_leeloolxp_web_tat_before_footer() {
 function local_leeloolxp_web_tat_check_user_teamnio($email, $teamniourl) {
 
     $url = $teamniourl . '/admin/sync_moodle_course/check_user_by_email/' . $email;
-    $postdata = array('email'=>$email);
+    $postdata = array('email' => $email);
     $curl = new curl;
     $options = array(
         'CURLOPT_RETURNTRANSFER' => true,
