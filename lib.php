@@ -23,8 +23,8 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-require_once(dirname(dirname(__DIR__)) . '/config.php');
 require_login();
+require_once(dirname(dirname(__DIR__)) . '/config.php');
 /**
  * Plugin to sync user's  tracking on activity to LeelooLXP account of the Moodle Admin
  */
@@ -61,9 +61,15 @@ function local_leeloolxp_web_tat_before_footer() {
     } else {
         return true;
     }
-
-    $useridteamnio = local_leeloolxp_web_tat_check_user_teamnio($useremail, $teamniourl);
-
+    $url = $teamniourl . '/admin/sync_moodle_course/check_user_by_email/' . $useremail;
+    $postdata = array('email' => $email);
+    $curl = new curl;
+    $options = array(
+        'CURLOPT_RETURNTRANSFER' => true,
+        'CURLOPT_HEADER' => false,
+        'CURLOPT_POST' => count($postdata),
+    );
+    $useridteamnio = $curl->post($url, $postdata, $options);
     $checkahead = true;
 
     if ($useridteamnio == '0') {
@@ -432,19 +438,4 @@ function local_leeloolxp_web_tat_before_footer() {
         }
     }
 }
-/**
- * Plugin to check user exist on Leeloolxp
- */
-function local_leeloolxp_web_tat_check_user_teamnio($email, $teamniourl) {
 
-    $url = $teamniourl . '/admin/sync_moodle_course/check_user_by_email/' . $email;
-    $postdata = array('email' => $email);
-    $curl = new curl;
-    $options = array(
-        'CURLOPT_RETURNTRANSFER' => true,
-        'CURLOPT_HEADER' => false,
-        'CURLOPT_POST' => count($postdata),
-    );
-    $output = $curl->post($url, $postdata, $options);
-    return $output;
-}
