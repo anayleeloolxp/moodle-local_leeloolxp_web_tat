@@ -24,13 +24,13 @@
  */
 defined('MOODLE_INTERNAL') || die();
 if ($hassiteconfig) {
-    $settings = new admin_settingpage('local_leeloolxp_web_tat', get_string('setting_title', 
+    $settings = new admin_settingpage('local_leeloolxp_web_tat', get_string('setting_title',
     'local_leeloolxp_web_tat'));
     $ADMIN->add('localplugins', $settings);
     $settings->add(new admin_setting_configtext('local_leeloolxp_web_tat/leeloolxp_web_tatlicensekey',
     get_string('license_id', 'local_leeloolxp_web_tat'), get_string('license_id_desc',
     'local_leeloolxp_web_tat'), '0', PARAM_TEXT));
-    $settings->add(new admin_setting_configcheckbox('local_leeloolxp_web_tat/leeloolxp_web_tatenabled', 
+    $settings->add(new admin_setting_configcheckbox('local_leeloolxp_web_tat/leeloolxp_web_tatenabled',
     get_string('enabled_plugin', 'local_leeloolxp_web_tat'), get_string('enabled_plugin_desc',
     'local_leeloolxp_web_tat'), '0', 1));
 }
