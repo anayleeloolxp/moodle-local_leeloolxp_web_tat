@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once (dirname(dirname(__DIR__)) . '/config.php');
+require_once(dirname(dirname(__DIR__)) . '/config.php');
 
 function local_leeloolxp_web_tat_before_footer() {
 
@@ -100,15 +100,8 @@ function local_leeloolxp_web_tat_before_footer() {
             }
             if ($id) {
                 $activityresourceid = $id;
-
-                
-
-               
-
                 $postdata = '&activityid=' . $activityresourceid . "&email=" . $useremail;
-
                 $url = $teamniourl . '/admin/sync_moodle_course/get_activity_task/';
-
                 $curl = new curl;
                 $options = array(
                     'CURLOPT_RETURNTRANSFER' => true,
@@ -116,14 +109,9 @@ function local_leeloolxp_web_tat_before_footer() {
                     'CURLOPT_POST' => count($postdata),
                 );
                 $outputtaskdetails = $curl->post($url, $postdata, $options);
-                
-
-                
                 $userid = $useridteamnio;
-
                 $PAGE->requires->js('/local/leeloolxp_web_tat/javascript/jquery.js');
-
-                if (!empty($output_task_details)) {
+                if (!empty($outputtaskdetails)) {
                     $url = $teamniourl . '/admin/sync_moodle_course/get_user_settings_tct_tat/' . $userid;
                     $curl = new curl;
                     $options = array(
@@ -136,7 +124,6 @@ function local_leeloolxp_web_tat_before_footer() {
                     $workingdate = date('Y-m-d');
                     echo "<input type = 'hidden' value = '' id='new_entry_val'/>";
                     $taskid = $outputtaskdetails;
-
                     if ($usersettings->user_data->webcam_shots == 1 && 1 == 0) {
                         $webinterval = $usersettings->user_data->webcam_interval*60;
                         echo '<div style="display:none" class="for_webcam" id="my_camera"></div>
@@ -403,7 +390,7 @@ function local_leeloolxp_web_tat_before_footer() {
 
                             };
 
-                            xhttp.open("GET", "'.$teamnio_url.'/admin/sync_moodle_course/
+                            xhttp.open("GET", '.$teamniourl.'+"/admin/sync_moodle_course/
                             task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="
                             +new_entry, true);
                             xhttp.send();
