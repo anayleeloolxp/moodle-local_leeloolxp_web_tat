@@ -29,7 +29,7 @@ require_once(dirname(dirname(__DIR__)) . '/config.php');
  * Plugin to sync user's  tracking on activity to LeelooLXP account of the Moodle Admin
  */
 function local_leeloolxp_web_tat_before_footer() {
-
+    require_login();
     $configtat = get_config('local_leeloolxp_web_tat');
 
     $licensekey = $configtat->leeloolxp_web_tatlicensekey;
@@ -41,16 +41,10 @@ function local_leeloolxp_web_tat_before_footer() {
     }
 
     global $USER;
-
     global $PAGE;
-
-    global $DB;
-
     global $CFG;
     $baseurl = $CFG->wwwroot;
     $useremail = $USER->email;
-    $sesskey = $USER->sesskey;
-    $logouturl = $baseurl . "/login/logout.php?sesskey=" . $sesskey;
     $postdata = '&license_key=' . $licensekey;
     $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
     $curl = new curl;
@@ -114,7 +108,8 @@ function local_leeloolxp_web_tat_before_footer() {
                 $userid = $useridteamnio;
                 $PAGE->requires->js('/local/leeloolxp_web_tat/javascript/jquery.js');
                 if (!empty($outputtaskdetails)) {
-                    $url = $teamniourl . '/admin/sync_moodle_course/get_user_settings_tct_tat/' . $userid;
+                    $url = $teamniourl . '/admin/sync_moodle_course/get_user_settings_tct_tat/' .
+                    $userid;
                     $curl = new curl;
                     $options = array(
                         'CURLOPT_RETURNTRANSFER' => true,
@@ -123,7 +118,6 @@ function local_leeloolxp_web_tat_before_footer() {
                     );
                     $output = $curl->post($url, $postdata, $options);
                     $usersettings = json_decode($output);
-                    $workingdate = date('Y-m-d');
                     echo "<input type = 'hidden' value = '' id='new_entry_val'/>";
                     $taskid = $outputtaskdetails;
                     if ($usersettings->user_data->webcam_shots == 1 && 1 == 0) {
@@ -177,11 +171,13 @@ function local_leeloolxp_web_tat_before_footer() {
 
                                         $.ajax({
 
-                                            url: "'.$teamniourl.'/admin/sync_moodle_course/save_webcamshot/",
+                                            url: "'.$teamniourl.'/admin/sync_moodle_course/
+                                            save_webcamshot/",
 
                                             type: "post",
 
-                                            data: {image: data_uri,task_id: '.$taskid.',user_id: '.$userid.'},
+                                            data: {image: data_uri,task_id: '.$taskid.',user_id: '.
+                                                $userid.'},
 
                                             success: function(data){
 
@@ -279,7 +275,8 @@ function local_leeloolxp_web_tat_before_footer() {
 
                                         document.getElementsByTagName("body")[0].style.display = "none";
 
-                                        alert("'.get_string("entire_screen", "local_leeloolxp_web_tat").'");
+                                        alert("'.get_string("entire_screen", "local_leeloolxp_web_tat").
+                                        '");
 
                                         window.location.href = '.$baseurl.';
 
@@ -291,7 +288,8 @@ function local_leeloolxp_web_tat_before_footer() {
 
                                     document.getElementsByTagName("body")[0].style.display = "none";
 
-                                    alert("'.get_string("need_screencast", "local_leeloolxp_web_tat").'");
+                                    alert("'.get_string("need_screencast", "local_leeloolxp_web_tat").
+                                    '");
 
                                     window.location.href = '.$baseurl.';
 
@@ -420,15 +418,8 @@ function local_leeloolxp_web_tat_before_footer() {
 
 
                                 };
-
-
-
-
-
-                                xhttp.open("GET", teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id, true);
-
-
-
+                                xhttp.open("GET", teamniourl+"/admin/sync_moodle_course/
+                                update_clockin_on_task_update/"+user_id, true);
                                 xhttp.send();
 
                             }
