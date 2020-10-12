@@ -17,3 +17,7 @@ PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
+
+## Description ##
+
+This plugin used for save activity tracking of a user, we are saving into leeloolxp. spent time on a single activity by a user. 
