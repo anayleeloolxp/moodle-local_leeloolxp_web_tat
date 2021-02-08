@@ -372,7 +372,7 @@ function local_leeloolxp_web_tat_before_footer() {
 
                             };
                             xhttp.open("GET", teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="
-                            +new_entry, true);
+                            +new_entry+"&clockin="+1, true);
                             xhttp.send();
 
                             }
