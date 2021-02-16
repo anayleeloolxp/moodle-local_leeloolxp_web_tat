@@ -31,6 +31,10 @@ require_once(dirname(dirname(__DIR__)) . '/config.php');
 function local_leeloolxp_web_tat_before_footer() {
     $configtat = get_config('local_leeloolxp_web_tat');
 
+    if (!isset($configtat->leeloolxp_web_tatlicensekey) && isset($configtat->leeloolxp_web_tatlicensekey) == '') {
+        return true;
+    }
+
     $licensekey = $configtat->leeloolxp_web_tatlicensekey;
 
     $tatenabled = $configtat->leeloolxp_web_tatenabled;
@@ -43,6 +47,11 @@ function local_leeloolxp_web_tat_before_footer() {
     global $PAGE;
     global $CFG;
     $baseurl = $CFG->wwwroot;
+
+    if (!isset($USER->email) && isset($USER->email) == '') {
+        return true;
+    }
+
     $useremail = $USER->email;
     $postdata = '&license_key=' . $licensekey;
     $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
@@ -50,7 +59,7 @@ function local_leeloolxp_web_tat_before_footer() {
     $options = array(
         'CURLOPT_RETURNTRANSFER' => true,
         'CURLOPT_HEADER' => false,
-        'CURLOPT_POST' => count($postdata),
+        'CURLOPT_POST' => 1,
     );
     if (!$output = $curl->post($url, $postdata, $options)) {
             return true;
@@ -62,7 +71,7 @@ function local_leeloolxp_web_tat_before_footer() {
         return true;
     }
     $url = $teamniourl . '/admin/sync_moodle_course/check_user_by_email/' . $useremail;
-    $postdata = array('email' => $email);
+    $postdata = array('email' => $useremail);
     $curl = new curl;
     $options = array(
         'CURLOPT_RETURNTRANSFER' => true,
@@ -107,7 +116,7 @@ function local_leeloolxp_web_tat_before_footer() {
                 $options = array(
                     'CURLOPT_RETURNTRANSFER' => true,
                     'CURLOPT_HEADER' => false,
-                    'CURLOPT_POST' => count($postdata),
+                    'CURLOPT_POST' => 1,
                 );
                 $outputtaskdetails = $curl->post($url, $postdata, $options);
                 $userid = $useridteamnio;
@@ -119,7 +128,7 @@ function local_leeloolxp_web_tat_before_footer() {
                     $options = array(
                         'CURLOPT_RETURNTRANSFER' => true,
                         'CURLOPT_HEADER' => false,
-                        'CURLOPT_POST' => count($postdata),
+                        'CURLOPT_POST' => 1,
                     );
                     $output = $curl->post($url, $postdata, $options);
                     $usersettings = json_decode($output);
