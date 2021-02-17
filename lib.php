@@ -24,7 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(dirname(__DIR__)) . '/config.php');
 /**
  * Plugin to sync user's  tracking on activity to LeelooLXP account of the Moodle Admin
  */
