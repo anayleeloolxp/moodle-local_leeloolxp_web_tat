@@ -53,16 +53,16 @@ function local_leeloolxp_web_tat_before_footer() {
     }
 
     $useremail = $USER->email;
-    $postdata = '&license_key=' . $licensekey;
+    $postdata = array('license_key' => $licensekey);
     $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
     $curl = new curl;
     $options = array(
         'CURLOPT_RETURNTRANSFER' => true,
         'CURLOPT_HEADER' => false,
-        'CURLOPT_POST' => 1,
+        'CURLOPT_POST' => count($postdata),
     );
     if (!$output = $curl->post($url, $postdata, $options)) {
-            return true;
+        return true;
     }
     $infoteamnio = json_decode($output);
     if ($infoteamnio->status != 'false') {
@@ -110,13 +110,13 @@ function local_leeloolxp_web_tat_before_footer() {
             }
             if ($id) {
                 $activityresourceid = $id;
-                $postdata = '&activityid=' . $activityresourceid . "&email=" . $useremail;
+                $postdata = array('activityid' => $activityresourceid, 'email' => $useremail);
                 $url = $teamniourl . '/admin/sync_moodle_course/get_activity_task/';
                 $curl = new curl;
                 $options = array(
                     'CURLOPT_RETURNTRANSFER' => true,
                     'CURLOPT_HEADER' => false,
-                    'CURLOPT_POST' => 1,
+                    'CURLOPT_POST' => count($postdata),
                 );
                 $outputtaskdetails = $curl->post($url, $postdata, $options);
                 $userid = $useridteamnio;
@@ -128,7 +128,7 @@ function local_leeloolxp_web_tat_before_footer() {
                     $options = array(
                         'CURLOPT_RETURNTRANSFER' => true,
                         'CURLOPT_HEADER' => false,
-                        'CURLOPT_POST' => 1,
+                        'CURLOPT_POST' => count($postdata),
                     );
                     $output = $curl->post($url, $postdata, $options);
                     $usersettings = json_decode($output);
