@@ -29,5 +29,6 @@ $plugin->version = 2020050501;
 $plugin->requires = 2019052001;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'local_leeloolxp_web_login_tracking' => 2020050503
+    'local_leeloolxp_web_login_tracking' => 2020050503,
+    'tool_leeloolxp_sync' => 2019062701
 );
