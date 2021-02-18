@@ -1,23 +1,29 @@
-# Leeloo LXP Activity Tracking #
+# Leeloo LXP Activities and Resources Tracking #
 
-This is Leeloo LXP activity tracking plugin. If the course is synced with LeelooLXP, then user can track time he spends on activity/resource.
-
-## License ##
-
-2020 Leeloo LXP <info@leeloolxp.com>
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program.  If not, see <http://www.gnu.org/licenses/>.
+Learning Activities and Resources | Real-Time Tracking
 
 ## Description ##
 
-This plugin used for save activity tracking of a user, we are saving into leeloolxp. spent time on a single activity by a user. 
+This plugin allows administrators and authorized personnel to track chosen users time spent in Moodle LMS Activities and Resources in Real-Time. It will then sync that data to Leeloo LXP for Learning Analytics, Gamification and Student Relationship Management purposes.
+
+Managers can see and export reports of time spent on specific Activities and Resources, with several filters and templates. All reports are fully customizable, so you can create and interpret this data in the Actionable Learning Analytics module.
+
+The Leeloo LXP Activities and Resources Tracking module is the second engagement booster in the Actionable Learning Analytics and the Advanced Gamification modules.
+
+Use it in tandem with the Leeloo LXP Attendance block!
+
+Your users will see a Real-Time clock with their time spent in the current activity, along with their attendance, their break time and their expected schedule.
+
+This plugin requires the Leeloo LXP Login and Attendance Tracking plugin, the Leeloo LXP Synchronizer plugin and the Leeloo LXP SSO plugin.
+
+Setup
+
+Go to Admin > Plugins > Local plugins > Leeloo LXP Web Activity Tracking
+
+- Add your license key
+
+- Enable the plugin
+
+How it works
+
+• Once the plugin is enabled: whenever users with time tracking activated opens a synced Activity/Resource, the time on that Activity/Resource will be tracked in Real-time in Leeloo LXP
