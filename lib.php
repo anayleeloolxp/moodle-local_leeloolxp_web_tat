@@ -99,7 +99,7 @@ function local_leeloolxp_web_tat_before_footer() {
         == 'mod-forum-view' || $PAGE->pagetype == 'mod-glossary-view' || $PAGE->pagetype ==
         'mod-scorm-view' || $PAGE->pagetype == 'mod-wiki-view' || $PAGE->pagetype ==
         'mod-workshop-view' || $PAGE->pagetype == 'mod-folder-view' || $PAGE->pagetype ==
-        'mod-imscp-view' || $PAGE->pagetype == 'mod-label-view' || $PAGE->pagetype == 'mod-url-view') {
+        'mod-imscp-view' || $PAGE->pagetype == 'mod-label-view' || $PAGE->pagetype == 'mod-url-view' || $PAGE->pagetype == 'mod-lesson-view') {
             if ($PAGE->pagetype == 'mod-quiz-attempt' || $PAGE->pagetype == 'mod-quiz-summary') {
                 $id = $_REQUEST['cmid'];
             } else {
