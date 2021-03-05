@@ -101,10 +101,12 @@ function local_leeloolxp_web_tat_before_footer() {
         'mod-workshop-view' || $PAGE->pagetype == 'mod-folder-view' || $PAGE->pagetype ==
         'mod-imscp-view' || $PAGE->pagetype == 'mod-label-view' || $PAGE->pagetype == 'mod-url-view' || $PAGE->pagetype == 'mod-lesson-view') {
             if ($PAGE->pagetype == 'mod-quiz-attempt' || $PAGE->pagetype == 'mod-quiz-summary') {
-                $id = $_REQUEST['cmid'];
+                $reqcmid = optional_param('cmid', null, PARAM_RAW);
+                $id = $reqcmid;
             } else {
-                if (isset($_REQUEST['id'])) {
-                    $id = $_REQUEST['id'];
+                $reqid = optional_param('id', null, PARAM_RAW);
+                if (isset($reqid)) {
+                    $id = $reqid;
                 }
             }
             if ($id) {
