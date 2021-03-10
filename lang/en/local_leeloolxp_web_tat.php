@@ -45,3 +45,10 @@ $string['stop_recording'] = 'Stop Recording';
 $string['take_snapshot'] = 'Snapshot';
 $string['entire_screen'] = 'Need screencast Entire Screen to access this page.';
 $string['need_screencast'] = 'Need screencast to access this page.';
+
+$string['privacy:metadata'] = 'In order to integrate with Leeloo LXP, some user
+data need to be sent to the Leeloo LXP client application (remote system).';
+$string['privacy:metadata:leeloolxp_web_tat'] = 'In order to integrate with Leeloo LXP, some user
+data need to be sent to the Leeloo LXP client application (remote system).';
+$string['privacy:metadata:id'] = 'The user ID';
+$string['privacy:metadata:email'] = 'The user\'s email is sent to Leeloo LXP to allow a better user experience.';

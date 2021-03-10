@@ -34,7 +34,8 @@ defined('MOODLE_INTERNAL') || die();
  *
  */
 class provider implements
-\core_privacy\local\metadata\provider {
+\core_privacy\local\metadata\provider,
+\core_privacy\local\request\data_provider {
 
     /**
      * Returns meta data about this system.
@@ -44,15 +45,13 @@ class provider implements
      */
     public static function get_metadata(collection $collection): collection {
         // Data collected by the client.
-        $collection->add_external_location_link(
-            'leeloolxp_web_tat_client',
-            [
-                'username' => 'privacy:metadata:username',
-                'fullname' => 'privacy:metadata:fullname',
-                'email' => 'privacy:metadata:email',
-            ],
-            'privacy:metadata'
-        );
+
+        $externalfields = [
+            'id' => 'privacy:metadata:id',
+            'email' => 'privacy:metadata:email',
+        ];
+
+        $collection->add_external_location_link('leeloolxp_web_tat_client', $externalfields, 'privacy:metadata:leeloolxp_web_tat');
 
         return $collection;
     }

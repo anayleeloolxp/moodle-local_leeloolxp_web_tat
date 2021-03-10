@@ -69,8 +69,8 @@ function local_leeloolxp_web_tat_before_footer() {
     } else {
         return true;
     }
-    $url = $teamniourl . '/admin/sync_moodle_course/check_user_by_email/' . $useremail;
-    $postdata = array('email' => $useremail);
+    $url = $teamniourl . '/admin/sync_moodle_course/check_user_by_email/' . base64_encode($useremail);
+    $postdata = array('email' => base64_encode($useremail));
     $curl = new curl;
     $options = array(
         'CURLOPT_RETURNTRANSFER' => true,
@@ -111,7 +111,7 @@ function local_leeloolxp_web_tat_before_footer() {
             }
             if ($id) {
                 $activityresourceid = $id;
-                $postdata = array('activityid' => $activityresourceid, 'email' => $useremail);
+                $postdata = array('activityid' => $activityresourceid, 'email' => base64_encode($useremail));
                 $url = $teamniourl . '/admin/sync_moodle_course/get_activity_task/';
                 $curl = new curl;
                 $options = array(
