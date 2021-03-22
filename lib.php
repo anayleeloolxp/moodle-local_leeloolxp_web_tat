@@ -25,6 +25,115 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
+ * Function to get Leeloo Install
+ *
+ * @return string leeloo url
+ */
+function local_leeloolxp_web_tat_get_leelooinstall() {
+
+    global $SESSION;
+
+    if (isset($SESSION->tatleelooinstall)) {
+        return $SESSION->tatleelooinstall;
+    }
+
+    $configtat = get_config('local_leeloolxp_web_tat');
+    $licensekey = $configtat->leeloolxp_web_tatlicensekey;
+    $postdata = array('license_key' => $licensekey);
+    $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
+    $curl = new curl;
+    $options = array(
+        'CURLOPT_RETURNTRANSFER' => true,
+        'CURLOPT_HEADER' => false,
+        'CURLOPT_POST' => count($postdata),
+    );
+
+    if (!$output = $curl->post($url, $postdata, $options)) {
+        $tatleelooinstallurl = 'no';
+        $SESSION->tatleelooinstall = $tatleelooinstallurl;
+    }
+
+    $infoteamnio = json_decode($output);
+    if ($infoteamnio->status != 'false') {
+        $tatleelooinstallurl = $infoteamnio->data->install_url;
+        $SESSION->tatleelooinstall = $tatleelooinstallurl;
+    } else {
+        $tatleelooinstallurl = 'no';
+        $SESSION->tatleelooinstall = $tatleelooinstallurl;
+    }
+
+    return $tatleelooinstallurl;
+}
+
+/**
+ * Function to check user
+ *
+ * @param string $teamniourl the teamniourl
+ * @param string $useremail the useremail
+ *
+ * @return mixed user id or no
+ */
+function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
+
+    global $SESSION;
+
+    if (isset($SESSION->latcheckemail)) {
+        return $SESSION->latcheckemail;
+    }
+
+    $postdata = array('email' => base64_encode($useremail));
+
+    $url = $teamniourl . '/admin/sync_moodle_course/check_user_by_email/' . base64_encode($useremail);
+    $curl = new curl;
+    $options = array(
+        'CURLOPT_RETURNTRANSFER' => true,
+        'CURLOPT_HEADER' => false,
+        'CURLOPT_POST' => count($postdata),
+    );
+    if (!$output = $curl->post($url, $postdata, $options)) {
+        $latcheckemail = 'no';
+        $SESSION->latcheckemail = $latcheckemail;
+    }
+    $latcheckemail = $output;
+    $SESSION->latcheckemail = $latcheckemail;
+    return $latcheckemail;
+}
+
+/**
+ * Function to get user tat/tct settings
+ *
+ * @param string $teamniourl the teamniourl
+ * @param string $userid the userid
+ *
+ * @return mixed lattatsetting or no
+ */
+function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
+
+    global $SESSION;
+
+    if (isset($SESSION->lattatsetting)) {
+        return $SESSION->lattatsetting;
+    }
+
+    $postdata = array();
+
+    $url = $teamniourl . '/admin/sync_moodle_course/get_user_settings_tct_tat/' . $userid;
+    $curl = new curl;
+    $options = array(
+        'CURLOPT_RETURNTRANSFER' => true,
+        'CURLOPT_HEADER' => false,
+        'CURLOPT_POST' => count($postdata),
+    );
+    if (!$output = $curl->post($url, $postdata, $options)) {
+        $lattatsetting = 'no';
+        $SESSION->lattatsetting = $lattatsetting;
+    }
+    $lattatsetting = $output;
+    $SESSION->lattatsetting = $lattatsetting;
+    return $lattatsetting;
+}
+
+/**
  * Plugin to sync user's  tracking on activity to LeelooLXP account of the Moodle Admin
  */
 function local_leeloolxp_web_tat_before_footer() {
@@ -52,32 +161,15 @@ function local_leeloolxp_web_tat_before_footer() {
     }
 
     $useremail = $USER->email;
-    $postdata = array('license_key' => $licensekey);
-    $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
-    $curl = new curl;
-    $options = array(
-        'CURLOPT_RETURNTRANSFER' => true,
-        'CURLOPT_HEADER' => false,
-        'CURLOPT_POST' => count($postdata),
-    );
-    if (!$output = $curl->post($url, $postdata, $options)) {
+
+    $teamniourl = local_leeloolxp_web_tat_get_leelooinstall();
+
+    if ($teamniourl == 'no') {
         return true;
     }
-    $infoteamnio = json_decode($output);
-    if ($infoteamnio->status != 'false') {
-        $teamniourl = $infoteamnio->data->install_url;
-    } else {
-        return true;
-    }
-    $url = $teamniourl . '/admin/sync_moodle_course/check_user_by_email/' . base64_encode($useremail);
-    $postdata = array('email' => base64_encode($useremail));
-    $curl = new curl;
-    $options = array(
-        'CURLOPT_RETURNTRANSFER' => true,
-        'CURLOPT_HEADER' => false,
-        'CURLOPT_POST' => count($postdata),
-    );
-    $useridteamnio = $curl->post($url, $postdata, $options);
+
+    $useridteamnio = local_leeloolxp_web_tat_checkuser($teamniourl, $useremail);
+
     $checkahead = true;
 
     if ($useridteamnio == '0') {
@@ -87,19 +179,36 @@ function local_leeloolxp_web_tat_before_footer() {
     if ($checkahead) {
         $activityresourceid = '';
         $id = false;
-        if ($PAGE->pagetype == 'mod-wespher-conference'
-        || $PAGE->pagetype == 'mod-wespher-view' || $PAGE->pagetype == 'mod-resource-view' ||
-        $PAGE->pagetype == 'mod-regularvideo-view' || $PAGE->pagetype == 'mod-forum-view' ||
-        $PAGE->pagetype == 'mod-book-view' || $PAGE->pagetype == 'mod-assign-view' || $PAGE->pagetype
-        == 'mod-survey-view' || $PAGE->pagetype == 'mod-page-view' || $PAGE->pagetype ==
-        'mod-quiz-view' || $PAGE->pagetype == 'mod-quiz-attempt' || $PAGE->pagetype ==
-        'mod-quiz-summary' || $PAGE->pagetype == 'mod-quiz-summary' || $PAGE->pagetype ==
-        'mod-chat-view' || $PAGE->pagetype == 'mod-choice-view' || $PAGE->pagetype == 'mod-lti-view' ||
-        $PAGE->pagetype == 'mod-feedback-view' || $PAGE->pagetype == 'mod-data-view' || $PAGE->pagetype
-        == 'mod-forum-view' || $PAGE->pagetype == 'mod-glossary-view' || $PAGE->pagetype ==
-        'mod-scorm-view' || $PAGE->pagetype == 'mod-wiki-view' || $PAGE->pagetype ==
-        'mod-workshop-view' || $PAGE->pagetype == 'mod-folder-view' || $PAGE->pagetype ==
-        'mod-imscp-view' || $PAGE->pagetype == 'mod-label-view' || $PAGE->pagetype == 'mod-url-view' || $PAGE->pagetype == 'mod-lesson-view') {
+        if (
+            $PAGE->pagetype == 'mod-wespher-conference' ||
+            $PAGE->pagetype == 'mod-wespher-view' ||
+            $PAGE->pagetype == 'mod-resource-view' ||
+            $PAGE->pagetype == 'mod-regularvideo-view' ||
+            $PAGE->pagetype == 'mod-forum-view' ||
+            $PAGE->pagetype == 'mod-book-view' ||
+            $PAGE->pagetype == 'mod-assign-view' ||
+            $PAGE->pagetype == 'mod-survey-view' ||
+            $PAGE->pagetype == 'mod-page-view' ||
+            $PAGE->pagetype == 'mod-quiz-view' ||
+            $PAGE->pagetype == 'mod-quiz-attempt' ||
+            $PAGE->pagetype == 'mod-quiz-summary' ||
+            $PAGE->pagetype == 'mod-quiz-summary' ||
+            $PAGE->pagetype == 'mod-chat-view' ||
+            $PAGE->pagetype == 'mod-choice-view' ||
+            $PAGE->pagetype == 'mod-lti-view' ||
+            $PAGE->pagetype == 'mod-feedback-view' ||
+            $PAGE->pagetype == 'mod-data-view' ||
+            $PAGE->pagetype == 'mod-forum-view' ||
+            $PAGE->pagetype == 'mod-glossary-view' ||
+            $PAGE->pagetype == 'mod-scorm-view' ||
+            $PAGE->pagetype == 'mod-wiki-view' ||
+            $PAGE->pagetype == 'mod-workshop-view' ||
+            $PAGE->pagetype == 'mod-folder-view' ||
+            $PAGE->pagetype == 'mod-imscp-view' ||
+            $PAGE->pagetype == 'mod-label-view' ||
+            $PAGE->pagetype == 'mod-url-view' ||
+            $PAGE->pagetype == 'mod-lesson-view'
+        ) {
             if ($PAGE->pagetype == 'mod-quiz-attempt' || $PAGE->pagetype == 'mod-quiz-summary') {
                 $reqcmid = optional_param('cmid', null, PARAM_RAW);
                 $id = $reqcmid;
@@ -122,25 +231,18 @@ function local_leeloolxp_web_tat_before_footer() {
                 $outputtaskdetails = $curl->post($url, $postdata, $options);
                 $userid = $useridteamnio;
                 if (!empty($outputtaskdetails)) {
-                    $url = $teamniourl . '/admin/sync_moodle_course/get_user_settings_tct_tat/' .
-                    $userid;
-                    $curl = new curl;
-                    $options = array(
-                        'CURLOPT_RETURNTRANSFER' => true,
-                        'CURLOPT_HEADER' => false,
-                        'CURLOPT_POST' => count($postdata),
-                    );
-                    $output = $curl->post($url, $postdata, $options);
+                    $output = local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid);
                     $usersettings = json_decode($output);
                     echo "<input type = 'hidden' value = '' id='new_entry_val'/>";
                     $taskid = $outputtaskdetails;
                     $logintrackingconfig = get_config('local_leeloolxp_web_login_tracking');
                     $popupison = $logintrackingconfig->web_loginlogout_popup;
                     echo '<script type="text/javascript">
-                    var is_popup_for_lat = '.$popupison.';
-                    var user_id = '.$userid.';
-                        var task_id = '.$taskid.';
-                        var teamniourl = "'.$teamniourl.'";
+                        var is_popup_for_lat = ' . $popupison . ';
+                        var user_id = ' . $userid . ';
+                        var task_id = ' . $taskid . ';
+                        var teamniourl = "' . $teamniourl . '";
+
                         // set local data for task id
                         var already_set =  localStorage.getItem("tracking_activity_id");
                         if(already_set == task_id) {
@@ -148,9 +250,11 @@ function local_leeloolxp_web_tat_before_footer() {
                         } else {
                             var  new_entry = "1";
                         }
+
                         document.getElementById("new_entry_val").value = new_entry;
                         localStorage.setItem("tracking_activity_id", "null");
                         localStorage.setItem("tracking_activity_id", task_id);
+
                         if(is_popup_for_lat=="1") {
                             var tracking_on_for_LLT = localStorage.getItem("tracked");
                         } else {
@@ -163,83 +267,60 @@ function local_leeloolxp_web_tat_before_footer() {
                             function update_task_time(user_id,tast_id,new_entry) {
                                 var xhttp = new XMLHttpRequest();
 
-                            xhttp.onreadystatechange = function(responseText) {
-
-                                if (this.readyState == 4 && this.status == 200) {
-
-                                    var new_entry = "0";
-
-                                    document.getElementById("new_entry_val").value = new_entry;
-
-
-
-                                }
-
-                            };
-                            xhttp.open("GET", teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="
-                            +new_entry+"&clockin="+1, true);
-                            xhttp.send();
-
-                            }
-
-                            var myVar = setInterval(function() {
-
-                                var new_new_entry = document.getElementById("new_entry_val").value;
-
-
-
-                                update_task_time(user_id,task_id,new_new_entry);
-
-                            },  60*1000);
-
-
-
-                        window.onbeforeunload = function (e) {
-
-                            var new_new_entry = document.getElementById("new_entry_val").value;
-
-                            update_task_time(user_id,task_id,new_new_entry);
-
-
-                            if(is_popup_for_lat=="1") {
-                           var tracking_on = localStorage.getItem("tracked");
-                        } else {
-                            var tracking_on = 1;
-                        }
-
-
-
-
-                            if(tracking_on=="1") {
-
-                                var xhttp = new XMLHttpRequest();
-
-
-
-                                xhttp.onreadystatechange = function() {
-
-
-
+                                xhttp.onreadystatechange = function(responseText) {
                                     if (this.readyState == 4 && this.status == 200) {
-                                        //document.getElementById("new_entry_val").value = 0;
+                                        var new_entry = "0";
+                                        document.getElementById("new_entry_val").value = new_entry;
                                     }
-
-
-
                                 };
-                                xhttp.open("GET",
-                                teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id, true);
+
+                                xhttp.open(
+                                    "GET",
+                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1,
+                                    true
+                                );
                                 xhttp.send();
 
                             }
 
-                        };
-                    }
-                    </script>';
+                            var myVar = setInterval(function() {
+                                var new_new_entry = document.getElementById("new_entry_val").value;
+                                update_task_time(user_id,task_id,new_new_entry);
+                            },  60*1000);
 
+                            window.onbeforeunload = function (e) {
+                                var new_new_entry = document.getElementById("new_entry_val").value;
+                                update_task_time(user_id,task_id,new_new_entry);
+
+                                if(is_popup_for_lat=="1") {
+                                    var tracking_on = localStorage.getItem("tracked");
+                                } else {
+                                    var tracking_on = 1;
+                                }
+
+                                if(tracking_on=="1") {
+                                    var xhttp = new XMLHttpRequest();
+
+                                    xhttp.onreadystatechange = function() {
+                                        if (this.readyState == 4 && this.status == 200) {
+                                            //document.getElementById("new_entry_val").value = 0;
+                                        }
+                                    };
+
+                                    xhttp.open(
+                                        "GET",
+                                        teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id,
+                                        true
+                                    );
+                                    xhttp.send();
+
+                                }
+
+                            };
+                        }
+                    </script>';
                 }
             }
         }
     }
 }
-
