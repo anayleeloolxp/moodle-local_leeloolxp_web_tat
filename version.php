@@ -24,8 +24,8 @@
  */defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_leeloolxp_web_tat';
-$plugin->release = '1.1.3';
-$plugin->version = 2021032201;
+$plugin->release = '1.1.4';
+$plugin->version = 2021061700;
 $plugin->requires = 2019052001;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(

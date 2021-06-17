@@ -180,10 +180,10 @@ function local_leeloolxp_web_tat_before_footer() {
         $activityresourceid = '';
         $id = false;
         if (
-            $PAGE->pagetype == 'mod-wespher-conference' ||
-            $PAGE->pagetype == 'mod-wespher-view' ||
+            $PAGE->pagetype == 'mod-leeloolxpvc-conference' ||
+            $PAGE->pagetype == 'mod-leeloolxpvc-view' ||
             $PAGE->pagetype == 'mod-resource-view' ||
-            $PAGE->pagetype == 'mod-regularvideo-view' ||
+            $PAGE->pagetype == 'mod-leeloolxpvimeo-view' ||
             $PAGE->pagetype == 'mod-forum-view' ||
             $PAGE->pagetype == 'mod-book-view' ||
             $PAGE->pagetype == 'mod-assign-view' ||
