@@ -37,6 +37,9 @@ function local_leeloolxp_web_tat_get_leelooinstall() {
         return $SESSION->tatleelooinstall;
     }
 
+    global $CFG;
+    require_once($CFG->dirroot . '/lib/filelib.php');
+
     $configtat = get_config('local_leeloolxp_web_tat');
     $licensekey = $configtat->leeloolxp_web_tatlicensekey;
     $postdata = array('license_key' => $licensekey);
@@ -81,6 +84,9 @@ function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
         return $SESSION->latcheckemail;
     }
 
+    global $CFG;
+    require_once($CFG->dirroot . '/lib/filelib.php');
+
     $postdata = array('email' => base64_encode($useremail));
 
     $url = $teamniourl . '/admin/sync_moodle_course/check_user_by_email/' . base64_encode($useremail);
@@ -114,6 +120,9 @@ function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
     if (isset($SESSION->lattatsetting)) {
         return $SESSION->lattatsetting;
     }
+
+    global $CFG;
+    require_once($CFG->dirroot . '/lib/filelib.php');
 
     $postdata = array();
 
@@ -155,6 +164,9 @@ function local_leeloolxp_web_tat_before_footer() {
     global $PAGE;
     global $CFG;
     $baseurl = $CFG->wwwroot;
+
+    global $CFG;
+    require_once($CFG->dirroot . '/lib/filelib.php');
 
     if (!isset($USER->email) && isset($USER->email) == '') {
         return true;
