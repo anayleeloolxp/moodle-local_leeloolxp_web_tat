@@ -297,7 +297,7 @@ function local_leeloolxp_web_tat_before_footer() {
                         '/netscape/i'   =>  'Netscape',
                         '/maxthon/i'    =>  'Maxthon',
                         '/konqueror/i'  =>  'Konqueror',
-                        '/mobile/i'     =>  'Handheld Browser'
+                        '/mobile/i'     =>  'Mobile Browser'
                     );
 
                     foreach ( $browserarray as $regex => $value ) { 
