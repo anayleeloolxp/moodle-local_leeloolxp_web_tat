@@ -297,7 +297,7 @@ function local_leeloolxp_web_tat_before_footer() {
                         '/netscape/i'   =>  'Netscape',
                         '/maxthon/i'    =>  'Maxthon',
                         '/konqueror/i'  =>  'Konqueror',
-                        '/mobile/i'     =>  'Mobile Browser'
+                        '/mobile/i'     =>  'Handheld Browser'
                     );
 
                     foreach ( $browserarray as $regex => $value ) { 
@@ -311,6 +311,7 @@ function local_leeloolxp_web_tat_before_footer() {
                         var user_id = ' . $userid . ';
                         var task_id = ' . $taskid . ';
                         var osplatform = "'.$osplatform.'";
+                        var ipaddress = "'.$_SERVER['REMOTE_ADDR'].'";
                         var browser = "'.$browser.'";
                         var teamniourl = "' . $teamniourl . '";
 
@@ -347,10 +348,10 @@ function local_leeloolxp_web_tat_before_footer() {
 
                                 xhttp.open(
                                     "GET",
-                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser,
+                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress,
                                     true
                                 );
-                                xhttp.send();
+                                xhttp.send();  
 
                             }
 
