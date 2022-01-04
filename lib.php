@@ -249,10 +249,70 @@ function local_leeloolxp_web_tat_before_footer() {
                     $taskid = $outputtaskdetails;
                     $logintrackingconfig = get_config('local_leeloolxp_web_login_tracking');
                     $popupison = $logintrackingconfig->web_loginlogout_popup;
+
+                    // get users OS and browser
+
+                    $useragent = $_SERVER['HTTP_USER_AGENT'];
+                    $osplatform =   "Unknown";
+                    $osarray =   array(
+                        '/windows nt 10/i'      =>  'Windows 10',
+                        '/windows nt 6.3/i'     =>  'Windows 8.1',
+                        '/windows nt 6.2/i'     =>  'Windows 8',
+                        '/windows nt 6.1/i'     =>  'Windows 7',
+                        '/windows nt 6.0/i'     =>  'Windows Vista',
+                        '/windows nt 5.2/i'     =>  'Windows Server 2003/XP x64',
+                        '/windows nt 5.1/i'     =>  'Windows XP',
+                        '/windows xp/i'         =>  'Windows XP',
+                        '/windows nt 5.0/i'     =>  'Windows 2000',
+                        '/windows me/i'         =>  'Windows ME',
+                        '/win98/i'              =>  'Windows 98',
+                        '/win95/i'              =>  'Windows 95',
+                        '/win16/i'              =>  'Windows 3.11',
+                        '/macintosh|mac os x/i' =>  'Mac OS X',
+                        '/mac_powerpc/i'        =>  'Mac OS 9',
+                        '/linux/i'              =>  'Linux',
+                        '/ubuntu/i'             =>  'Ubuntu',
+                        '/iphone/i'             =>  'iPhone',
+                        '/ipod/i'               =>  'iPod',
+                        '/ipad/i'               =>  'iPad',
+                        '/android/i'            =>  'Android',
+                        '/blackberry/i'         =>  'BlackBerry',
+                        '/webos/i'              =>  'Mobile'
+                    );
+
+                    foreach ( $osarray as $regex => $value ) { 
+                        if ( preg_match($regex, $useragent ) ) {
+                            $osplatform = $value;
+                        }
+                    } 
+
+                    $browser        = "Unknown";
+                    $browserarray  = array(
+                        '/msie/i'       =>  'Internet Explorer',
+                        '/firefox/i'    =>  'Firefox',
+                        '/safari/i'     =>  'Safari',
+                        '/chrome/i'     =>  'Chrome',
+                        '/edge/i'       =>  'Edge',
+                        '/opera/i'      =>  'Opera',
+                        '/netscape/i'   =>  'Netscape',
+                        '/maxthon/i'    =>  'Maxthon',
+                        '/konqueror/i'  =>  'Konqueror',
+                        '/mobile/i'     =>  'Handheld Browser'
+                    );
+
+                    foreach ( $browserarray as $regex => $value ) { 
+                        if ( preg_match( $regex, $useragent ) ) {
+                            $browser = $value;
+                        }
+                    }
+
                     echo '<script type="text/javascript">
                         var is_popup_for_lat = ' . $popupison . ';
                         var user_id = ' . $userid . ';
                         var task_id = ' . $taskid . ';
+                        var osplatform = "'.$osplatform.'";
+                        var ipaddress = "'.$_SERVER['REMOTE_ADDR'].'";
+                        var browser = "'.$browser.'";
                         var teamniourl = "' . $teamniourl . '";
 
                         // set local data for task id
@@ -288,10 +348,10 @@ function local_leeloolxp_web_tat_before_footer() {
 
                                 xhttp.open(
                                     "GET",
-                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1,
+                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress,
                                     true
                                 );
-                                xhttp.send();
+                                xhttp.send();  
 
                             }
 
