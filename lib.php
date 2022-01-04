@@ -256,7 +256,7 @@ function local_leeloolxp_web_tat_before_footer() {
                         var teamniourl = "' . $teamniourl . '";
 
                         // set local data for task id
-                        var already_set =  localStorage.getItem("tracking_activity_id");
+                        var already_set =  sessionStorage.getItem("tracking_activity_id");
                         if(already_set == task_id) {
                           var new_entry = "0";
                         } else {
@@ -264,11 +264,11 @@ function local_leeloolxp_web_tat_before_footer() {
                         }
 
                         document.getElementById("new_entry_val").value = new_entry;
-                        localStorage.setItem("tracking_activity_id", "null");
-                        localStorage.setItem("tracking_activity_id", task_id);
+                        sessionStorage.setItem("tracking_activity_id", "null");
+                        sessionStorage.setItem("tracking_activity_id", task_id);
 
                         if(is_popup_for_lat=="1") {
-                            var tracking_on_for_LLT = localStorage.getItem("tracked");
+                            var tracking_on_for_LLT = sessionStorage.getItem("tracked");
                         } else {
                             var tracking_on_for_LLT = 1;
                         }
@@ -305,7 +305,7 @@ function local_leeloolxp_web_tat_before_footer() {
                                 update_task_time(user_id,task_id,new_new_entry);
 
                                 if(is_popup_for_lat=="1") {
-                                    var tracking_on = localStorage.getItem("tracked");
+                                    var tracking_on = sessionStorage.getItem("tracked");
                                 } else {
                                     var tracking_on = 1;
                                 }
