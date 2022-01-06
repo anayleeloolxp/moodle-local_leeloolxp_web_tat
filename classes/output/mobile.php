@@ -47,38 +47,6 @@ class mobile {
     
     public static function mobile_init($args) {
 
-        return [
-            'templates' => [
-                [
-                    'id' => 'main',
-                    'html' => '<h1 class="text-center">checkingblock</h1>',
-                ],
-                
-            ],
-            'javascript' => 'console.log("local_leeloolxp_web_tat 1");
-            console.log(this);
-            this.ionRouteDataChanged = function() {
-                console.log("local_leeloolxp_web_tat asdasd");
-            };
-            this.ionViewWillEnter = function() {
-                console.log("local_leeloolxp_web_tat ionViewWillEnter");
-            };
-            this.ionViewDidEnter = function() {
-                console.log("local_leeloolxp_web_tat ionViewDidEnter");
-            };
-            this.ionViewDidLeave = function() {
-                console.log("local_leeloolxp_web_tat ionViewDidLeave");
-            };
-
-            this.canLeave = function() {
-                console.log("local_leeloolxp_web_tat canLeave");
-            };
-            this.nav.DidLeave = function() {
-                console.log("local_leeloolxp_web_tat DidLeave");
-            };
-            ',
-        ];
-
         global $CFG, $USER, $PAGE;
 
         require_once($CFG->dirroot . '/local/leeloolxp_web_tat/lib.php');
@@ -128,6 +96,7 @@ class mobile {
         }
 
         $useremail = $USER->email;
+        $baseemail = base64_encode($useremail);
 
         $teamniourl = local_leeloolxp_web_tat_get_leelooinstall();
 
@@ -145,122 +114,214 @@ class mobile {
 
         $useridteamnio = local_leeloolxp_web_tat_checkuser($teamniourl, $useremail);
 
-        $checkahead = true;
-
         if ($useridteamnio == '0') {
-            $checkahead = false;
+            return [
+                'templates' => [
+                    [
+                        'id' => 'main',
+                        'html' => '<h1 class="text-center">checkingblock</h1>',
+                    ],
+                    'javascript' => 'console.log("local_leeloolxp_web_tat 5")',
+                ],
+            ];
+
         }
 
-        if ($checkahead) {
+        $logintrackingconfig = get_config('local_leeloolxp_web_login_tracking');
+        $popupison = $logintrackingconfig->web_loginlogout_popup;
             
-            $returnjs = 'class AddonLocalLeeloolxpwebtatOfflineProvider {
-                constructor() {
+        $returnjs = '
+        class AddonLocalLeeloolxpwebtatOfflineProvider {
+            constructor() {
 
-                    const myInterval = setInterval(function() {
-                        var thisurl = window.location.href;
+                (function(history){
+                    var pushState = history.pushState;
+                    history.pushState = function(state) {
+
+                        var thisurl = arguments[2];
                         var checkifmodpage = thisurl.includes("mod_");
-                        console.log(thisurl);
                         if( checkifmodpage ){
-                            console.log("yes mod "+thisurl);
-                        }
-                    }, 1000);
+                            const urlarr = thisurl.split("?");
+                            const idarr = urlarr[0].split("/");
+                            var arid = idarr.at(-1);
+                            if(arid){
 
-                    '; 
+                                var xhttp = new XMLHttpRequest();
+                                xhttp.onreadystatechange = function() {
+                                    if (this.readyState == 4 && this.status == 200) {
+                                        var taskid = xhttp.responseText;
 
-            /*$returnjs .= '
-                var is_popup_for_lat = ' . $popupison . ';
-                var user_id = ' . $userid . ';
-                var task_id = ' . $taskid . ';
-                var teamniourl = "' . $teamniourl . '";
+                                        if( taskid ){
 
-                // set local data for task id
-                var already_set =  sessionStorage.getItem("tracking_activity_id");
-                if(already_set == task_id) {
-                var new_entry = "0";
-                } else {
-                    var  new_entry = "1";
-                }
+                                            var is_popup_for_lat = ' . $popupison . ';
+                                            var user_id = ' . $useridteamnio . ';
+                                            var task_id = taskid;
+                                            var osplatform = "Unknown";
+                                            var ipaddress = "localhost";
+                                            var browser = "mobileapp";
+                                            var teamniourl = "' . $teamniourl . '";
 
-                document.getElementById("new_entry_val").value = new_entry;
-                sessionStorage.setItem("tracking_activity_id", "null");
-                sessionStorage.setItem("tracking_activity_id", task_id);
+                                            // set local data for task id
+                                            var already_set =  sessionStorage.getItem("tracking_activity_id");
+                                            if(already_set == task_id) {
+                                            var new_entry = "0";
+                                            } else {
+                                                var  new_entry = "1";
+                                            }
 
-                if(is_popup_for_lat=="1") {
-                    var tracking_on_for_LLT = sessionStorage.getItem("tracked");
-                } else {
-                    var tracking_on_for_LLT = 1;
-                }
+                                            sessionStorage.setItem("new_entry_val", new_entry);
+                                            sessionStorage.setItem("tracking_activity_id", "null");
+                                            sessionStorage.setItem("tracking_activity_id", task_id);
 
-                if(tracking_on_for_LLT=="1") {
-                    update_task_time(user_id,task_id,new_entry);
+                                            if(is_popup_for_lat=="1") {
+                                                var tracking_on_for_LLT = sessionStorage.getItem("tracked");
+                                            } else {
+                                                var tracking_on_for_LLT = 1;
+                                            }
 
-                    function update_task_time(user_id,tast_id,new_entry) {
-                        var xhttp = new XMLHttpRequest();
+                                            if(tracking_on_for_LLT=="1") {
+                                                update_task_time(user_id,task_id,new_entry);
 
-                        xhttp.onreadystatechange = function(responseText) {
-                            if (this.readyState == 4 && this.status == 200) {
-                                var new_entry = "0";
-                                document.getElementById("new_entry_val").value = new_entry;
+                                                function update_task_time(user_id,tast_id,new_entry) {
+                                                    var xhttp1 = new XMLHttpRequest();
+
+                                                    xhttp1.onreadystatechange = function(responseText) {
+                                                        if (this.readyState == 4 && this.status == 200) {
+                                                            var new_entry = "0";
+                                                            sessionStorage.setItem("new_entry_val", new_entry);
+                                                        }
+                                                    };
+
+                                                    xhttp1.open(
+                                                        "GET",
+                                                        teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress,
+                                                        true
+                                                    );
+                                                    xhttp1.send();  
+
+                                                }
+
+                                                var myVar = setInterval(function() {
+                                                    var new_new_entry = sessionStorage.getItem("new_entry_val");
+                                                    var already_set =  sessionStorage.getItem("tracking_activity_id");
+                                                    if(already_set!="null"){
+                                                        update_task_time(user_id,task_id,new_new_entry);
+                                                    }else{
+                                                        clearInterval(myVar);
+                                                    }
+                                                    
+                                                },  60*1000);
+
+                                            }
+
+                                        }
+                                    }
+                                };
+                                xhttp.open("GET", "'.$teamniourl.'/admin/sync_moodle_course/get_activity_task/?activityid="+arid+"&email='.$baseemail.'", true);
+                                xhttp.send();
+
+                                console.log("run code for came on activity");
                             }
-                        };
-
-                        xhttp.open(
-                            "GET",
-                            teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1,
-                            true
-                        );
-                        xhttp.send();
-
-                    }
-
-                    var myVar = setInterval(function() {
-                        var new_new_entry = document.getElementById("new_entry_val").value;
-                        update_task_time(user_id,task_id,new_new_entry);
-                    },  60*1000);
-
-                    window.onbeforeunload = function (e) {
-                        var new_new_entry = document.getElementById("new_entry_val").value;
-                        update_task_time(user_id,task_id,new_new_entry);
-
-                        if(is_popup_for_lat=="1") {
-                            var tracking_on = sessionStorage.getItem("tracked");
-                        } else {
-                            var tracking_on = 1;
                         }
 
-                        if(tracking_on=="1") {
-                            var xhttp = new XMLHttpRequest();
+                        var lasturl = window.location.href;
+                        var checkifprevmodpage = lasturl.includes("mod_");
+                        if( checkifprevmodpage ){
+                            const urlarr = lasturl.split("?");
+                            const idarr = urlarr[0].split("/");
+                            var arid = idarr.at(-1);
+                            if(arid){
+                                console.log("run code for left from activity");
+                                var xhttp2 = new XMLHttpRequest();
+                                xhttp2.onreadystatechange = function() {
+                                    if (this.readyState == 4 && this.status == 200) {
+                                        var taskid = xhttp2.responseText;
 
-                            xhttp.onreadystatechange = function() {
-                                if (this.readyState == 4 && this.status == 200) {
-                                    //document.getElementById("new_entry_val").value = 0;
-                                }
-                            };
+                                        if( taskid ){
+                                            var is_popup_for_lat = ' . $popupison . ';
+                                            var user_id = ' . $useridteamnio . ';
+                                            var task_id = taskid;
+                                            var osplatform = "Unknown";
+                                            var ipaddress = "localhost";
+                                            var browser = "mobileapp";
+                                            var teamniourl = "' . $teamniourl . '";
 
-                            xhttp.open(
-                                "GET",
-                                teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id,
-                                true
-                            );
-                            xhttp.send();
+                                            var new_new_entry = sessionStorage.getItem("new_entry_val");
 
+                                            function update_task_time(user_id,tast_id,new_entry) {
+                                                var xhttp1 = new XMLHttpRequest();
+
+                                                xhttp1.onreadystatechange = function(responseText) {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                        var new_entry = "0";
+                                                        sessionStorage.setItem("new_entry_val", new_entry);
+                                                    }
+                                                };
+
+                                                xhttp1.open(
+                                                    "GET",
+                                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress,
+                                                    true
+                                                );
+                                                xhttp1.send();  
+
+                                            }
+
+                                            update_task_time(user_id,task_id,new_new_entry);
+
+                                            if(is_popup_for_lat=="1") {
+                                                var tracking_on = sessionStorage.getItem("tracked");
+                                            } else {
+                                                var tracking_on = 1;
+                                            }
+
+                                            if(tracking_on=="1") {
+                                                var xhttp3 = new XMLHttpRequest();
+
+                                                xhttp3.onreadystatechange = function() {
+                                                    if (this.readyState == 4 && this.status == 200) {
+                                                        //sessionStorage.setItem("new_entry_val",0);
+                                                        sessionStorage.setItem("tracking_activity_id", "null");
+                                                    }
+                                                };
+
+                                                xhttp3.open(
+                                                    "GET",
+                                                    teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id,
+                                                    true
+                                                );
+                                                xhttp3.send();
+
+                                            }
+
+                                        }
+                                    }
+                                };
+                                xhttp2.open("GET", "'.$teamniourl.'/admin/sync_moodle_course/get_activity_task/?activityid="+arid+"&email='.$baseemail.'", true);
+                                xhttp2.send();
+
+                                
+
+                            }
                         }
-
+                        
+                        return pushState.apply(history, arguments);
                     };
-                }
-            ';*/
+                })(window.history);
+                
 
-            $returnjs .= '} }
+                '; 
 
-            const webtattrackingOffline = new AddonLocalLeeloolxpwebtatOfflineProvider();
-            const result = {
-                webtattrackingOffline: webtattrackingOffline,
-            };
-            
-            result;
-            ';
+        $returnjs .= '} }
 
-        }
+        const webtattrackingOffline = new AddonLocalLeeloolxpwebtatOfflineProvider();
+        const result = {
+            webtattrackingOffline: webtattrackingOffline,
+        };
+        
+        result;
+        ';
+
 
         file_put_contents(dirname(__FILE__).'/returnjs.js', print_r($returnjs, true));
 
