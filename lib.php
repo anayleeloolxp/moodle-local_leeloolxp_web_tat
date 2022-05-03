@@ -191,6 +191,9 @@ function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
         'CURLOPT_HEADER' => false,
 
         'CURLOPT_POST' => count($postdata),
+        'CURLOPT_HTTPHEADER' => array(
+            'LeelooLXPToken: '.get_config('local_leeloolxpapi')->leelooapitoken.''
+        )
 
     );
 
@@ -265,6 +268,9 @@ function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
         'CURLOPT_HEADER' => false,
 
         'CURLOPT_POST' => count($postdata),
+        'CURLOPT_HTTPHEADER' => array(
+            'LeelooLXPToken: '.get_config('local_leeloolxpapi')->leelooapitoken.''
+        )
 
     );
 
@@ -480,6 +486,9 @@ function local_leeloolxp_web_tat_before_footer() {
                     'CURLOPT_HEADER' => false,
 
                     'CURLOPT_POST' => count($postdata),
+                    'CURLOPT_HTTPHEADER' => array(
+                        'LeelooLXPToken: '.get_config('local_leeloolxpapi')->leelooapitoken.''
+                    )
 
                 );
 
@@ -699,7 +708,7 @@ function local_leeloolxp_web_tat_before_footer() {
 
                                     "GET",
 
-                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress,
+                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress+"&installlogintoken='.$_COOKIE['installlogintoken'].'",
 
                                     true
 
@@ -765,7 +774,7 @@ function local_leeloolxp_web_tat_before_footer() {
 
                                         "GET",
 
-                                        teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id,
+                                        teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id+"&installlogintoken='.$_COOKIE['installlogintoken'].'",
 
                                         true
 

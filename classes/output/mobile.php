@@ -199,7 +199,7 @@ class mobile {
 
                                                     xhttp1.open(
                                                         "GET",
-                                                        teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress,
+                                                        teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress+"&installlogintoken='.$_COOKIE['installlogintoken'].'",
                                                         true
                                                     );
                                                     xhttp1.send();  
@@ -222,7 +222,7 @@ class mobile {
                                             }
                                         }
                                     };
-                                    xhttp.open("GET", "'.$teamniourl.'/admin/sync_moodle_course/get_activity_task/?activityid="+arid+"&email='.$baseemail.'", true);
+                                    xhttp.open("GET", "'.$teamniourl.'/admin/sync_moodle_course/get_activity_task/?activityid="+arid+"&email='.$baseemail.'&installlogintoken='.$_COOKIE['installlogintoken'].'", true);
                                     xhttp.send();
                                 }
                                 
@@ -274,7 +274,7 @@ class mobile {
 
                                                     xhttp1.open(
                                                         "GET",
-                                                        teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress,
+                                                        teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress+"&installlogintoken='.$_COOKIE['installlogintoken'].'",
                                                         true
                                                     );
                                                     xhttp1.send();  
@@ -296,7 +296,7 @@ class mobile {
 
                                                 xhttp3.open(
                                                     "GET",
-                                                    teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id,
+                                                    teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id+"&installlogintoken='.$_COOKIE['installlogintoken'].'",
                                                     true
                                                 );
                                                 xhttp3.send();
@@ -306,7 +306,7 @@ class mobile {
                                             }
                                         }
                                     };
-                                    xhttp2.open("GET", "'.$teamniourl.'/admin/sync_moodle_course/get_activity_task/?activityid="+arid+"&email='.$baseemail.'", true);
+                                    xhttp2.open("GET", "'.$teamniourl.'/admin/sync_moodle_course/get_activity_task/?activityid="+arid+"&email='.$baseemail.'&installlogintoken='.$_COOKIE['installlogintoken'].'", true);
                                     xhttp2.send();
 
                                 }
