@@ -473,7 +473,11 @@ function local_leeloolxp_web_tat_before_footer() {
 
                 $activityresourceid = $id;
 
-                $postdata = array('activityid' => $activityresourceid, 'email' => base64_encode($useremail));
+                $postdata = array(
+                    'activityid' => $activityresourceid,
+                    'email' => base64_encode($useremail),
+                    'installlogintoken' => $_COOKIE['installlogintoken']
+                );
 
                 $url = $teamniourl . '/admin/sync_moodle_course/get_activity_task/';
 
