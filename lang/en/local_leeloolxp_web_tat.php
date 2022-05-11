@@ -52,3 +52,4 @@ $string['privacy:metadata:leeloolxp_web_tat'] = 'In order to integrate with Leel
 data need to be sent to the Leeloo LXP client application (remote system).';
 $string['privacy:metadata:id'] = 'The user ID';
 $string['privacy:metadata:email'] = 'The user\'s email is sent to Leeloo LXP to allow a better user experience.';
+$string['hello'] = '';

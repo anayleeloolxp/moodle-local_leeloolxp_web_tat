@@ -25,7 +25,7 @@
 
 $plugin->component = 'local_leeloolxp_web_tat';
 $plugin->release = '1.1.4';
-$plugin->version = 2022050501;
+$plugin->version = 2022050502;
 $plugin->requires = 2019052001;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
