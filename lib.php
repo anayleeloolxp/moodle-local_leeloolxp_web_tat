@@ -71,7 +71,6 @@ function local_leeloolxp_web_tat_get_leelooinstall() {
     if (isset($SESSION->tatleelooinstall)) {
 
         return $SESSION->tatleelooinstall;
-
     }
 
 
@@ -109,7 +108,6 @@ function local_leeloolxp_web_tat_get_leelooinstall() {
         $tatleelooinstallurl = 'no';
 
         $SESSION->tatleelooinstall = $tatleelooinstallurl;
-
     }
 
 
@@ -121,19 +119,16 @@ function local_leeloolxp_web_tat_get_leelooinstall() {
         $tatleelooinstallurl = $infoteamnio->data->install_url;
 
         $SESSION->tatleelooinstall = $tatleelooinstallurl;
-
     } else {
 
         $tatleelooinstallurl = 'no';
 
         $SESSION->tatleelooinstall = $tatleelooinstallurl;
-
     }
 
 
 
     return $tatleelooinstallurl;
-
 }
 
 
@@ -165,7 +160,6 @@ function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
     if (isset($SESSION->latcheckemail)) {
 
         return $SESSION->latcheckemail;
-
     }
 
 
@@ -192,7 +186,7 @@ function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
 
         'CURLOPT_POST' => count($postdata),
         'CURLOPT_HTTPHEADER' => array(
-            'LeelooLXPToken: '.get_config('local_leeloolxpapi')->leelooapitoken.''
+            'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
         )
 
     );
@@ -202,7 +196,6 @@ function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
         $latcheckemail = 'no';
 
         $SESSION->latcheckemail = $latcheckemail;
-
     }
 
     $latcheckemail = $output;
@@ -210,7 +203,6 @@ function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
     $SESSION->latcheckemail = $latcheckemail;
 
     return $latcheckemail;
-
 }
 
 
@@ -242,7 +234,6 @@ function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
     if (isset($SESSION->lattatsetting)) {
 
         return $SESSION->lattatsetting;
-
     }
 
 
@@ -269,7 +260,7 @@ function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
 
         'CURLOPT_POST' => count($postdata),
         'CURLOPT_HTTPHEADER' => array(
-            'LeelooLXPToken: '.get_config('local_leeloolxpapi')->leelooapitoken.''
+            'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
         )
 
     );
@@ -279,7 +270,6 @@ function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
         $lattatsetting = 'no';
 
         $SESSION->lattatsetting = $lattatsetting;
-
     }
 
     $lattatsetting = $output;
@@ -287,7 +277,6 @@ function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
     $SESSION->lattatsetting = $lattatsetting;
 
     return $lattatsetting;
-
 }
 
 
@@ -298,7 +287,7 @@ function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
 
  */
 
-function local_leeloolxp_web_tat_before_footer() { 
+function local_leeloolxp_web_tat_before_footer() {
 
 
     $configtat = get_config('local_leeloolxp_web_tat');
@@ -308,7 +297,6 @@ function local_leeloolxp_web_tat_before_footer() {
     if (!isset($configtat->leeloolxp_web_tatlicensekey) && isset($configtat->leeloolxp_web_tatlicensekey) == '') {
 
         return true;
-
     }
 
 
@@ -324,7 +312,6 @@ function local_leeloolxp_web_tat_before_footer() {
     if ($tatenabled == 0) {
 
         return true;
-
     }
 
 
@@ -335,7 +322,7 @@ function local_leeloolxp_web_tat_before_footer() {
 
     global $CFG;
 
-    $baseurl = $CFG->wwwroot; 
+    $baseurl = $CFG->wwwroot;
 
 
 
@@ -348,7 +335,6 @@ function local_leeloolxp_web_tat_before_footer() {
     if (!isset($USER->email) && isset($USER->email) == '') {
 
         return true;
-
     }
 
 
@@ -364,7 +350,6 @@ function local_leeloolxp_web_tat_before_footer() {
     if ($teamniourl == 'no') {
 
         return true;
-
     }
 
 
@@ -380,7 +365,6 @@ function local_leeloolxp_web_tat_before_footer() {
     if ($useridteamnio == '0') {
 
         $checkahead = false;
-
     }
 
 
@@ -456,7 +440,6 @@ function local_leeloolxp_web_tat_before_footer() {
                 $reqcmid = optional_param('cmid', null, PARAM_RAW);
 
                 $id = $reqcmid;
-
             } else {
 
                 $reqid = optional_param('id', null, PARAM_RAW);
@@ -464,9 +447,7 @@ function local_leeloolxp_web_tat_before_footer() {
                 if (isset($reqid)) {
 
                     $id = $reqid;
-
                 }
-
             }
 
             if ($id) {
@@ -491,7 +472,7 @@ function local_leeloolxp_web_tat_before_footer() {
 
                     'CURLOPT_POST' => count($postdata),
                     'CURLOPT_HTTPHEADER' => array(
-                        'LeelooLXPToken: '.get_config('local_leeloolxpapi')->leelooapitoken.''
+                        'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
                     )
 
                 );
@@ -576,15 +557,13 @@ function local_leeloolxp_web_tat_before_footer() {
 
 
 
-                    foreach ( $osarray as $regex => $value ) { 
+                    foreach ($osarray as $regex => $value) {
 
-                        if ( preg_match($regex, $useragent ) ) {
+                        if (preg_match($regex, $useragent)) {
 
                             $osplatform = $value;
-
                         }
-
-                    } 
+                    }
 
 
 
@@ -616,14 +595,12 @@ function local_leeloolxp_web_tat_before_footer() {
 
 
 
-                    foreach ( $browserarray as $regex => $value ) { 
+                    foreach ($browserarray as $regex => $value) {
 
-                        if ( preg_match( $regex, $useragent ) ) {
+                        if (preg_match($regex, $useragent)) {
 
                             $browser = $value;
-
                         }
-
                     }
 
 
@@ -636,11 +613,11 @@ function local_leeloolxp_web_tat_before_footer() {
 
                         var task_id = ' . $taskid . ';
 
-                        var osplatform = "'.$osplatform.'";
+                        var osplatform = "' . $osplatform . '";
 
-                        var ipaddress = "'.$_SERVER['REMOTE_ADDR'].'";
+                        var ipaddress = "' . $_SERVER['REMOTE_ADDR'] . '";
 
-                        var browser = "'.$browser.'";
+                        var browser = "' . $browser . '";
 
                         var teamniourl = "' . $teamniourl . '";
 
@@ -712,13 +689,13 @@ function local_leeloolxp_web_tat_before_footer() {
 
                                     "GET",
 
-                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress+"&installlogintoken='.$_COOKIE['installlogintoken'].'",
+                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress+"&installlogintoken=' . $_COOKIE['installlogintoken'] . '",
 
                                     true
 
                                 );
 
-                                xhttp.send();  
+                                xhttp.send();
 
 
 
@@ -778,7 +755,7 @@ function local_leeloolxp_web_tat_before_footer() {
 
                                         "GET",
 
-                                        teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id+"&installlogintoken='.$_COOKIE['installlogintoken'].'",
+                                        teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id+"&installlogintoken=' . $_COOKIE['installlogintoken'] . '",
 
                                         true
 
@@ -797,21 +774,15 @@ function local_leeloolxp_web_tat_before_footer() {
                         }
 
                     </script>';
-
                 }
-
             }
-
         } else {
-            echo '<script type="text/javascript"> 
+            echo '<script type="text/javascript">
             // set local data for task id
 
             var already_set =  sessionStorage.getItem("tracking_activity_id");
             sessionStorage.setItem("tracking_activity_id", "null");
             </script>';
         }
-
     }
-
 }
-

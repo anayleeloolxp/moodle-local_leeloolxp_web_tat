@@ -21,11 +21,11 @@
  * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
  * @author Leeloo LXP <info@leeloolxp.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */defined('MOODLE_INTERNAL') || die();
+ */ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_leeloolxp_web_tat';
 $plugin->release = '1.1.4';
-$plugin->version = 2022050502;
+$plugin->version = 2022052300;
 $plugin->requires = 2019052001;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(

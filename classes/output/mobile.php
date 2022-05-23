@@ -44,7 +44,7 @@ class mobile {
             ],
         ];
     }
-    
+
     public static function mobile_init($args) {
 
         global $CFG, $USER, $PAGE;
@@ -61,7 +61,7 @@ class mobile {
                         'id' => 'main',
                         'html' => '<h1 class="text-center">checkingblock</h1>',
                     ],
-                    
+
                 ],
                 'javascript' => 'console.log("local_leeloolxp_web_tat 1")',
             ];
@@ -124,12 +124,11 @@ class mobile {
                     'javascript' => 'console.log("local_leeloolxp_web_tat 5")',
                 ],
             ];
-
         }
 
         $logintrackingconfig = get_config('local_leeloolxp_web_login_tracking');
         $popupison = $logintrackingconfig->web_loginlogout_popup;
-            
+
         $returnjs = '
         class AddonLocalLeeloolxpwebtatOfflineProvider {
             constructor() {
@@ -164,7 +163,7 @@ class mobile {
 
                                             if( taskid ){
 
-                                                
+
                                                 var user_id = ' . $useridteamnio . ';
                                                 var task_id = taskid;
                                                 var osplatform = "Unknown";
@@ -184,7 +183,7 @@ class mobile {
                                                 sessionStorage.setItem("tracking_activity_id", "null");
                                                 sessionStorage.setItem("tracking_activity_id", task_id);
 
-                                                
+
                                                 update_task_time(user_id,task_id,new_entry);
 
                                                 function update_task_time(user_id,tast_id,new_entry) {
@@ -199,10 +198,10 @@ class mobile {
 
                                                     xhttp1.open(
                                                         "GET",
-                                                        teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress+"&installlogintoken='.$_COOKIE['installlogintoken'].'",
+                                                        teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress+"&installlogintoken=' . $_COOKIE['installlogintoken'] . '",
                                                         true
                                                     );
-                                                    xhttp1.send();  
+                                                    xhttp1.send();
 
                                                 }
 
@@ -214,18 +213,18 @@ class mobile {
                                                     }else{
                                                         clearInterval(myVar);
                                                     }
-                                                    
+
                                                 },  60*1000);
 
-                                                
+
 
                                             }
                                         }
                                     };
-                                    xhttp.open("GET", "'.$teamniourl.'/admin/sync_moodle_course/get_activity_task/?activityid="+arid+"&email='.$baseemail.'&installlogintoken='.$_COOKIE['installlogintoken'].'", true);
+                                    xhttp.open("GET", "' . $teamniourl . '/admin/sync_moodle_course/get_activity_task/?activityid="+arid+"&email=' . $baseemail . '&installlogintoken=' . $_COOKIE['installlogintoken'] . '", true);
                                     xhttp.send();
                                 }
-                                
+
                             }
                         }
 
@@ -252,7 +251,7 @@ class mobile {
                                             var taskid = xhttp2.responseText;
 
                                             if( taskid ){
-                                                
+
                                                 var user_id = ' . $useridteamnio . ';
                                                 var task_id = taskid;
                                                 var osplatform = "Unknown";
@@ -274,14 +273,14 @@ class mobile {
 
                                                     xhttp1.open(
                                                         "GET",
-                                                        teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress+"&installlogintoken='.$_COOKIE['installlogintoken'].'",
+                                                        teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress+"&installlogintoken=' . $_COOKIE['installlogintoken'] . '",
                                                         true
                                                     );
-                                                    xhttp1.send();  
+                                                    xhttp1.send();
 
                                                 }
 
-                                                
+
 
                                                 update_task_time(user_id,task_id,new_new_entry);
 
@@ -296,30 +295,30 @@ class mobile {
 
                                                 xhttp3.open(
                                                     "GET",
-                                                    teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id+"&installlogintoken='.$_COOKIE['installlogintoken'].'",
+                                                    teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id+"&installlogintoken=' . $_COOKIE['installlogintoken'] . '",
                                                     true
                                                 );
                                                 xhttp3.send();
 
-                                                
+
 
                                             }
                                         }
                                     };
-                                    xhttp2.open("GET", "'.$teamniourl.'/admin/sync_moodle_course/get_activity_task/?activityid="+arid+"&email='.$baseemail.'&installlogintoken='.$_COOKIE['installlogintoken'].'", true);
+                                    xhttp2.open("GET", "' . $teamniourl . '/admin/sync_moodle_course/get_activity_task/?activityid="+arid+"&email=' . $baseemail . '&installlogintoken=' . $_COOKIE['installlogintoken'] . '", true);
                                     xhttp2.send();
 
                                 }
 
                             }
                         }
-                        
+
                         return pushState.apply(history, arguments);
                     };
                 })(window.history);
-                
 
-                '; 
+
+                ';
 
         $returnjs .= '} }
 
@@ -327,12 +326,12 @@ class mobile {
         const result = {
             webtattrackingOffline: webtattrackingOffline,
         };
-        
+
         result;
         ';
 
 
-        file_put_contents(dirname(__FILE__).'/returnjs.js', print_r($returnjs, true));
+        file_put_contents(dirname(__FILE__) . '/returnjs.js', print_r($returnjs, true));
 
         return [
             'templates' => [
@@ -341,8 +340,7 @@ class mobile {
                     'html' => '<h1 class="text-center">checkingblock</h1>',
                 ],
             ],
-            'javascript' => 'console.log("local_leeloolxp_tat end"); '.$returnjs.' ',
+            'javascript' => 'console.log("local_leeloolxp_tat end"); ' . $returnjs . ' ',
         ];
     }
-
 }
