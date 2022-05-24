@@ -1,31 +1,17 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
-
 //
-
 // Moodle is free software: you can redistribute it and/or modify
-
 // it under the terms of the GNU General Public License as published by
-
 // the Free Software Foundation, either version 3 of the License, or
-
 // (at your option) any later version.
-
 //
-
 // Moodle is distributed in the hope that it will be useful,
-
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
-
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-
 // GNU General Public License for more details.
-
 //
-
 // You should have received a copy of the GNU General Public License
-
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
@@ -45,11 +31,6 @@
  */
 
 
-
-defined('MOODLE_INTERNAL') || die();
-
-
-
 /**
 
  * Function to get Leeloo Install
@@ -62,24 +43,16 @@ defined('MOODLE_INTERNAL') || die();
 
 function local_leeloolxp_web_tat_get_leelooinstall() {
 
-
-
     global $SESSION;
-
-
 
     if (isset($SESSION->tatleelooinstall)) {
 
         return $SESSION->tatleelooinstall;
     }
 
-
-
     global $CFG;
 
     require_once($CFG->dirroot . '/lib/filelib.php');
-
-
 
     $configtat = get_config('local_leeloolxp_web_tat');
 
@@ -101,16 +74,12 @@ function local_leeloolxp_web_tat_get_leelooinstall() {
 
     );
 
-
-
     if (!$output = $curl->post($url, $postdata, $options)) {
 
         $tatleelooinstallurl = 'no';
 
         $SESSION->tatleelooinstall = $tatleelooinstallurl;
     }
-
-
 
     $infoteamnio = json_decode($output);
 
@@ -125,8 +94,6 @@ function local_leeloolxp_web_tat_get_leelooinstall() {
 
         $SESSION->tatleelooinstall = $tatleelooinstallurl;
     }
-
-
 
     return $tatleelooinstallurl;
 }
@@ -151,28 +118,18 @@ function local_leeloolxp_web_tat_get_leelooinstall() {
 
 function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
 
-
-
     global $SESSION;
-
-
 
     if (isset($SESSION->latcheckemail)) {
 
         return $SESSION->latcheckemail;
     }
 
-
-
     global $CFG;
 
     require_once($CFG->dirroot . '/lib/filelib.php');
 
-
-
     $postdata = array('email' => base64_encode($useremail));
-
-
 
     $url = $teamniourl . '/admin/sync_moodle_course/check_user_by_email/' . base64_encode($useremail);
 
@@ -225,28 +182,18 @@ function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
 
 function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
 
-
-
     global $SESSION;
-
-
 
     if (isset($SESSION->lattatsetting)) {
 
         return $SESSION->lattatsetting;
     }
 
-
-
     global $CFG;
 
     require_once($CFG->dirroot . '/lib/filelib.php');
 
-
-
     $postdata = array();
-
-
 
     $url = $teamniourl . '/admin/sync_moodle_course/get_user_settings_tct_tat/' . $userid;
 
@@ -289,32 +236,21 @@ function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
 
 function local_leeloolxp_web_tat_before_footer() {
 
-
     $configtat = get_config('local_leeloolxp_web_tat');
-
-
 
     if (!isset($configtat->leeloolxp_web_tatlicensekey) && isset($configtat->leeloolxp_web_tatlicensekey) == '') {
 
         return true;
     }
 
-
-
     $licensekey = $configtat->leeloolxp_web_tatlicensekey;
 
-
-
     $tatenabled = $configtat->leeloolxp_web_tatenabled;
-
-
 
     if ($tatenabled == 0) {
 
         return true;
     }
-
-
 
     global $USER;
 
@@ -324,50 +260,32 @@ function local_leeloolxp_web_tat_before_footer() {
 
     $baseurl = $CFG->wwwroot;
 
-
-
     global $CFG;
 
     require_once($CFG->dirroot . '/lib/filelib.php');
-
-
 
     if (!isset($USER->email) && isset($USER->email) == '') {
 
         return true;
     }
 
-
-
     $useremail = $USER->email;
 
-
-
     $teamniourl = local_leeloolxp_web_tat_get_leelooinstall();
-
-
 
     if ($teamniourl == 'no') {
 
         return true;
     }
 
-
-
     $useridteamnio = local_leeloolxp_web_tat_checkuser($teamniourl, $useremail);
 
-
-
     $checkahead = true;
-
-
 
     if ($useridteamnio == '0') {
 
         $checkahead = false;
     }
-
-
 
     if ($checkahead) {
 
@@ -495,67 +413,61 @@ function local_leeloolxp_web_tat_before_footer() {
 
                     $popupison = $logintrackingconfig->web_loginlogout_popup;
 
-
-
-                    // get users OS and browser
-
-
+                    // Get users OS and browser.
 
                     $useragent = $_SERVER['HTTP_USER_AGENT'];
 
-                    $osplatform =   "Unknown";
+                    $osplatform = "Unknown";
 
-                    $osarray =   array(
+                    $osarray = array(
 
-                        '/windows nt 10/i'      =>  'Windows 10',
+                        '/windows nt 10/i'      => 'Windows 10',
 
-                        '/windows nt 6.3/i'     =>  'Windows 8.1',
+                        '/windows nt 6.3/i'     => 'Windows 8.1',
 
-                        '/windows nt 6.2/i'     =>  'Windows 8',
+                        '/windows nt 6.2/i'     => 'Windows 8',
 
-                        '/windows nt 6.1/i'     =>  'Windows 7',
+                        '/windows nt 6.1/i'     => 'Windows 7',
 
-                        '/windows nt 6.0/i'     =>  'Windows Vista',
+                        '/windows nt 6.0/i'     => 'Windows Vista',
 
-                        '/windows nt 5.2/i'     =>  'Windows Server 2003/XP x64',
+                        '/windows nt 5.2/i'     => 'Windows Server 2003/XP x64',
 
-                        '/windows nt 5.1/i'     =>  'Windows XP',
+                        '/windows nt 5.1/i'     => 'Windows XP',
 
-                        '/windows xp/i'         =>  'Windows XP',
+                        '/windows xp/i'         => 'Windows XP',
 
-                        '/windows nt 5.0/i'     =>  'Windows 2000',
+                        '/windows nt 5.0/i'     => 'Windows 2000',
 
-                        '/windows me/i'         =>  'Windows ME',
+                        '/windows me/i'         => 'Windows ME',
 
-                        '/win98/i'              =>  'Windows 98',
+                        '/win98/i'              => 'Windows 98',
 
-                        '/win95/i'              =>  'Windows 95',
+                        '/win95/i'              => 'Windows 95',
 
-                        '/win16/i'              =>  'Windows 3.11',
+                        '/win16/i'              => 'Windows 3.11',
 
-                        '/macintosh|mac os x/i' =>  'Mac OS X',
+                        '/macintosh|mac os x/i' => 'Mac OS X',
 
-                        '/mac_powerpc/i'        =>  'Mac OS 9',
+                        '/mac_powerpc/i'        => 'Mac OS 9',
 
-                        '/linux/i'              =>  'Linux',
+                        '/linux/i'              => 'Linux',
 
-                        '/ubuntu/i'             =>  'Ubuntu',
+                        '/ubuntu/i'             => 'Ubuntu',
 
-                        '/iphone/i'             =>  'iPhone',
+                        '/iphone/i'             => 'iPhone',
 
-                        '/ipod/i'               =>  'iPod',
+                        '/ipod/i'               => 'iPod',
 
-                        '/ipad/i'               =>  'iPad',
+                        '/ipad/i'               => 'iPad',
 
-                        '/android/i'            =>  'Android',
+                        '/android/i'            => 'Android',
 
-                        '/blackberry/i'         =>  'BlackBerry',
+                        '/blackberry/i'         => 'BlackBerry',
 
-                        '/webos/i'              =>  'Mobile'
+                        '/webos/i'              => 'Mobile'
 
                     );
-
-
 
                     foreach ($osarray as $regex => $value) {
 
@@ -565,35 +477,31 @@ function local_leeloolxp_web_tat_before_footer() {
                         }
                     }
 
-
-
                     $browser        = "Unknown";
 
                     $browserarray  = array(
 
-                        '/msie/i'       =>  'Internet Explorer',
+                        '/msie/i'       => 'Internet Explorer',
 
-                        '/firefox/i'    =>  'Firefox',
+                        '/firefox/i'    => 'Firefox',
 
-                        '/safari/i'     =>  'Safari',
+                        '/safari/i'     => 'Safari',
 
-                        '/chrome/i'     =>  'Chrome',
+                        '/chrome/i'     => 'Chrome',
 
-                        '/edge/i'       =>  'Edge',
+                        '/edge/i'       => 'Edge',
 
-                        '/opera/i'      =>  'Opera',
+                        '/opera/i'      => 'Opera',
 
-                        '/netscape/i'   =>  'Netscape',
+                        '/netscape/i'   => 'Netscape',
 
-                        '/maxthon/i'    =>  'Maxthon',
+                        '/maxthon/i'    => 'Maxthon',
 
-                        '/konqueror/i'  =>  'Konqueror',
+                        '/konqueror/i'  => 'Konqueror',
 
-                        '/mobile/i'     =>  'Handheld Browser'
+                        '/mobile/i'     => 'Handheld Browser'
 
                     );
-
-
 
                     foreach ($browserarray as $regex => $value) {
 
@@ -602,8 +510,6 @@ function local_leeloolxp_web_tat_before_footer() {
                             $browser = $value;
                         }
                     }
-
-
 
                     echo '<script type="text/javascript">
 
@@ -689,7 +595,10 @@ function local_leeloolxp_web_tat_before_footer() {
 
                                     "GET",
 
-                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id+"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1+"&osplatform="+osplatform+"&browser="+browser+"&ipaddress="+ipaddress+"&installlogintoken=' . $_COOKIE['installlogintoken'] . '",
+                                    teamniourl+"/admin/sync_moodle_course/task_time_update/?user_id="+user_id
+                                    +"&task_id="+task_id+"&is_new_entry="+new_entry+"&clockin="+1
+                                    +"&osplatform="+osplatform+"&browser="+browser
+                                    +"&ipaddress="+ipaddress+"&installlogintoken=' . $_COOKIE['installlogintoken'] . '",
 
                                     true
 
@@ -755,8 +664,8 @@ function local_leeloolxp_web_tat_before_footer() {
 
                                         "GET",
 
-                                        teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"+user_id+"&installlogintoken=' . $_COOKIE['installlogintoken'] . '",
-
+                                        teamniourl+"/admin/sync_moodle_course/update_clockin_on_task_update/"
+                                        +user_id+"&installlogintoken=' . $_COOKIE['installlogintoken'] . '",
                                         true
 
                                     );

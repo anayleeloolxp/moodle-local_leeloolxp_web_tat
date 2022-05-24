@@ -27,8 +27,6 @@ namespace local_leeloolxp_web_tat\privacy;
 
 use core_privacy\local\metadata\collection;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Provider implementation for local_leeloolxp_web_tat.
  *
