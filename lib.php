@@ -143,7 +143,7 @@ function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
 
         'CURLOPT_POST' => count($postdata),
         'CURLOPT_HTTPHEADER' => array(
-            'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
+            'Leeloolxptoken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
         )
 
     );
@@ -207,7 +207,7 @@ function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
 
         'CURLOPT_POST' => count($postdata),
         'CURLOPT_HTTPHEADER' => array(
-            'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
+            'Leeloolxptoken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
         )
 
     );
@@ -390,7 +390,7 @@ function local_leeloolxp_web_tat_before_footer() {
 
                     'CURLOPT_POST' => count($postdata),
                     'CURLOPT_HTTPHEADER' => array(
-                        'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
+                        'Leeloolxptoken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
                     )
 
                 );
