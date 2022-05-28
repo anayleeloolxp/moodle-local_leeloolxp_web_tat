@@ -31,6 +31,11 @@ namespace local_leeloolxp_web_tat\output;
  */
 class mobile {
 
+    /**
+     * View function
+     *
+     * @return array templates data
+     */
     public static function view_hello() {
         return [
             'templates' => [
@@ -43,6 +48,12 @@ class mobile {
         ];
     }
 
+    /**
+     * Mobile data function
+     *
+     * @param object $args arguments
+     * @return array elements
+     */
     public static function mobile_init($args) {
 
         global $CFG, $USER, $PAGE;
@@ -343,8 +354,6 @@ class mobile {
 
         result;
         ';
-
-        file_put_contents(dirname(__FILE__) . '/returnjs.js', print_r($returnjs, true));
 
         return [
             'templates' => [

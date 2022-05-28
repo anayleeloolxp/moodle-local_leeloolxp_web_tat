@@ -15,32 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
-
  * Plugin administration pages are defined here.
-
  *
-
  * @package     local_leeloolxp_web_tat
-
  * @category    admin
-
  * @copyright   2020 Leeloo LXP <info@leeloolxp.com>
-
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-
  */
-
 
 /**
-
  * Function to get Leeloo Install
-
  *
-
  * @return string leeloo url
-
  */
-
 function local_leeloolxp_web_tat_get_leelooinstall() {
 
     global $SESSION;
@@ -98,24 +85,14 @@ function local_leeloolxp_web_tat_get_leelooinstall() {
     return $tatleelooinstallurl;
 }
 
-
-
 /**
-
  * Function to check user
-
  *
-
  * @param string $teamniourl the teamniourl
-
  * @param string $useremail the useremail
-
  *
-
  * @return mixed user id or no
-
  */
-
 function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
 
     global $SESSION;
@@ -162,24 +139,14 @@ function local_leeloolxp_web_tat_checkuser($teamniourl, $useremail) {
     return $latcheckemail;
 }
 
-
-
 /**
-
  * Function to get user tat/tct settings
-
  *
-
  * @param string $teamniourl the teamniourl
-
  * @param string $userid the userid
-
  *
-
  * @return mixed lattatsetting or no
-
  */
-
 function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
 
     global $SESSION;
@@ -200,22 +167,16 @@ function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
     $curl = new curl;
 
     $options = array(
-
         'CURLOPT_RETURNTRANSFER' => true,
-
         'CURLOPT_HEADER' => false,
-
         'CURLOPT_POST' => count($postdata),
         'CURLOPT_HTTPHEADER' => array(
             'Leeloolxptoken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
         )
-
     );
 
     if (!$output = $curl->post($url, $postdata, $options)) {
-
         $lattatsetting = 'no';
-
         $SESSION->lattatsetting = $lattatsetting;
     }
 
@@ -226,14 +187,9 @@ function local_leeloolxp_web_tat_tattctsetting($teamniourl, $userid) {
     return $lattatsetting;
 }
 
-
-
 /**
-
  * Plugin to sync user's  tracking on activity to LeelooLXP account of the Moodle Admin
-
  */
-
 function local_leeloolxp_web_tat_before_footer() {
 
     $configtat = get_config('local_leeloolxp_web_tat');
